@@ -44,7 +44,7 @@ async function startServer() {
     },
   });
 
-  const PORT = process.env.PORT || 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
@@ -131,6 +131,20 @@ async function startServer() {
           io.to(room.roomCode).emit("room_updated", { room });
         }
       }
+    });
+
+    socket.on("start_game", (data: { roomCode: string }) => {
+      const room = rooms.get(data.roomCode);
+      if (room) {
+        const player = room.players.find(p => p.socketId === socket.id);
+        if (player?.role === "host") {
+          io.to(room.roomCode).emit("game_started", { room });
+        }
+      }
+    });
+
+    socket.on("player_move", (data: { roomCode: string; x: number; y: number; playerNumber: number }) => {
+      socket.to(data.roomCode).emit("player_moved", data);
     });
 
     socket.on("disconnect", () => {
