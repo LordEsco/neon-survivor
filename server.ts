@@ -144,7 +144,7 @@ async function startServer() {
     });
 
     socket.on("player_move", (data: { roomCode: string; x: number; y: number; playerNumber: number }) => {
-      socket.to(data.roomCode).emit("player_moved", data);
+      socket.to(data.roomCode).emit("player_moved", { ...data, socketId: socket.id });
     });
 
     socket.on("disconnect", () => {
