@@ -93,7 +93,7 @@ export const CROSSHAIRS = [
 
 export const INITIAL_STATE: GameState = {
   player: { ...INITIAL_PLAYER },
-  player2: null,
+  otherPlayers: {},
   isMultiplayer: false,
   enemies: [],
   bullets: [],
