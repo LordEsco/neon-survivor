@@ -88,7 +88,7 @@ export interface OnlineRoom {
 
 export interface GameState {
   player: Player;
-  player2: Player | null;
+  otherPlayers: { [socketId: string]: Player };
   isMultiplayer: boolean;
   enemies: Enemy[];
   bullets: Bullet[];
